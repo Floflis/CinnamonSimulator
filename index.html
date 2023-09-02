@@ -2,7 +2,7 @@
 body {
 margin:0
 }
-.backdrop {
+#backdrop {
     background:             url("https://unsplash.com/photos/5B-CcdKM9LA/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8OHx8bWFjYXJvb25zfGVufDB8fHx8MTY5MzY5MzIyNXww&force=true") center;
     /*background-size:        contain;*/
     background-size:cover;
@@ -33,49 +33,49 @@ margin:0
 </style>
 
 <script>
-let tiles = Array.from(document.querySelectorAll('.tile'));
-let draggedTile = null;
 
-tiles.forEach((tile, index) => {
-  tile.setAttribute('draggable', 'true');
-  tile.setAttribute('data-index', index);
 
-  tile.addEventListener('dragstart', function(e) {
-    draggedTile = this;
-    e.dataTransfer.setData('text/plain', ''); // This line is necessary for Firefox
-  });
+let dragindex=0;
+let dropindex=0;
+let clone="";
 
-  tile.addEventListener('dragover', function(e) {
-    e.preventDefault();
-  });
-
-  tile.addEventListener('drop', function(e) {
-    e.preventDefault();
-
-    let draggedIndex = +draggedTile.getAttribute('data-index');
-    let droppedIndex = +this.getAttribute('data-index');
-
-    if (draggedIndex < droppedIndex) {
-      this.after(draggedTile);
-    } else {
-      this.before(draggedTile);
-    }
-
-    tiles = Array.from(document.querySelectorAll('.tile'));
-    tiles.forEach((tile, index) => tile.setAttribute('data-index', index));
-
-    localStorage.setItem('tiles', tiles.map(tile => tile.innerHTML).join('||'));
-  });
-});
-
-let savedTiles = localStorage.getItem('tiles');
-if (savedTiles) {
-  let tileContainer = document.querySelector('.backdrop');
-  tileContainer.innerHTML = savedTiles.split('||').map(content => `<div class="tile">${content}</div>`).join('');
+function drag(e)
+{
+e.dataTransfer.setData("text",e.target.id);
 }
+
+function drop(e)
+{
+e.preventDefault();
+clone=e.target.cloneNode(true);
+let data=e.dataTransfer.getData("text"); 
+if(clone.id !== data) {
+let nodelist=document.getElementById("backdrop").childNodes;
+for(let i=0;i<nodelist.length;i++)
+{
+if(nodelist[i].id==data)
+{
+dragindex=i;
+}
+
+}
+
+document.getElementById("backdrop").replaceChild(document.getElementById(data),e.target);
+
+document.getElementById("backdrop").insertBefore(clone,document.getElementById("backdrop").childNodes[dragindex]);
+  }
+
+}
+
+function allowDrop(e)
+{
+    e.preventDefault();
+}
+
+
 </script>
 
-<div class="backdrop">
+<div id="backdrop">
 	<p style="background:#000;color:#fff;margin:0">Windows Phone</p>
-	<div class="tile"><p>Phone</p></div><div class="tile"><p class="tiletext">Photos</p></div><div class="tile" style="background:green"><p class="tiletext">Cursor IDE</p></div><div class="tile"><p class="tiletext">People</p></div><div title="Prime Video for Windows" class="tile" style="background:url('https://store-images.s-microsoft.com/image/apps.49860.14618985536919905.3e754390-a812-43d7-87fc-335159cd867b.9f1b702c-2a8b-4fdc-b65b-8a6c4e49b55f');background-size:cover"><p class="tiletext">‎ </p></div>
+	<div class="tile" id="box1" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Phone</p></div><div class="tile" id="box2" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Photos</p></div><div class="tile" style="background:green" id="box3" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Cursor IDE</p></div><div class="tile" id="box4" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">People</p></div><div title="Prime Video for Windows" class="tile" id="box5" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" style="background:url('https://store-images.s-microsoft.com/image/apps.49860.14618985536919905.3e754390-a812-43d7-87fc-335159cd867b.9f1b702c-2a8b-4fdc-b65b-8a6c4e49b55f');background-size:cover"><p class="tiletext">‎ </p></div>
 </div>
