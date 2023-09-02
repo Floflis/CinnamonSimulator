@@ -1,0 +1,8 @@
+chown -h 1000:1000 './Fork.txt'
+chmod 0777 './Fork.txt'
+/usr/bin/touch -hcmd "2023-09-02 19:08:50.7887901000 -0300" './Fork.txt'
+/usr/bin/touch -hcad "2023-09-02 19:10:09.3659254000 -0300" './Fork.txt'
+chown -h 1000:1000 './index.html'
+chmod 0777 './index.html'
+/usr/bin/touch -hcmd "2023-09-02 19:09:25.7684178000 -0300" './index.html'
+/usr/bin/touch -hcad "2023-09-02 19:09:26.0990361000 -0300" './index.html'

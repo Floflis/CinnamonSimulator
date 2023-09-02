@@ -1,0 +1,2 @@
+Forked from: https://codepen.io/rpsthecoder/pen/qxrQpb
+Follow-up inspo: https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode
