@@ -8,7 +8,6 @@ background:#000
     background:             url("https://unsplash.com/photos/5B-CcdKM9LA/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8OHx8bWFjYXJvb25zfGVufDB8fHx8MTY5MzY5MzIyNXww&force=true") center;
     /*background-size:        contain;*/
     background-size:cover;
-    /*width:                  100%;*/
     width: fit-content;
     height:100%
 }
@@ -16,7 +15,6 @@ background:#000
 .tile {
   width: 100px;
   height: 100px;
-  text-align: center;
   margin: 0;
   margin-right:0px;
   display: inline-block;
@@ -27,11 +25,18 @@ background:#000
   user-select: none;          /* Standard syntax */
 }
 .tiletext {
-  color: #fff
+  color: #fff;
+  margin-top: 77px;
+  margin-left: 8px;
+  font-size: 12px
 }
-.tile.blendbg {
+/*.tile.blendbg {
   background: white;
   mix-blend-mode: multiply;
+}*/
+.tile.blendbg {
+  box-shadow: inset 0 0 40px #000;
+  /*From: https://css-tricks.com/snippets/css/css-box-shadow/*/
 }
 </style>
 
@@ -123,6 +128,5 @@ function drop(e)
 </script>
 
 <div id="backdrop">
-	<p style="background:#000;color:#fff;margin:0">Windows Phone</p>
-	<div class="tile" id="box1" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Phone</p></div><div class="tile" id="box2" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Photos</p></div><div class="tile" style="background:#262539" id="box3" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Cursor IDE</p></div><div class="tile" id="box4" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">People</p></div><div title="Prime Video for Windows" class="tile" id="box5" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" style="background:url('https://store-images.s-microsoft.com/image/apps.49860.14618985536919905.3e754390-a812-43d7-87fc-335159cd867b.9f1b702c-2a8b-4fdc-b65b-8a6c4e49b55f');background-size:cover"><p class="tiletext">‎ </p></div>
+	<div class="tile blendbg" id="box1" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Phone</p></div><div class="tile blendbg" id="box2" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Photos</p></div><div class="tile" style="background:#262539" id="box3" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">Cursor IDE</p></div><div class="tile blendbg" id="box4" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><p class="tiletext">People</p></div><div title="Prime Video for Windows" class="tile" id="box5" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" style="background:url('https://store-images.s-microsoft.com/image/apps.49860.14618985536919905.3e754390-a812-43d7-87fc-335159cd867b.9f1b702c-2a8b-4fdc-b65b-8a6c4e49b55f');background-size:cover"><p class="tiletext">‎ </p></div>
 </div>
