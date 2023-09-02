@@ -13,9 +13,6 @@ margin:0
 .tile {
   width: 160px;
   height: 160px;
-  background: white;
-  mix-blend-mode: multiply;
-  font: bolder 12px 'Alfa Slab One';
   text-align: center;
   margin: 0;
   margin-right:0px;
@@ -25,9 +22,13 @@ margin:0
 .tiletext {
   color: #fff
 }
+.tile.blendbg {
+  background: white;
+  mix-blend-mode: multiply;
+}
 </style>
 
 <div class="backdrop">
 	<p style="background:#000;color:#fff;margin:0">Windows Phone</p>
-	<div class="tile"><p>Phone</p></div><div class="tile"><p class="tiletext">Photos</p></div>
+	<div class="tile"><p>Phone</p></div><div class="tile"><p class="tiletext">Photos</p></div><div class="tile" style="background:green"><p class="tiletext">Cursor IDE</p></div><div class="tile"><p class="tiletext">People</p></div><div title="Prime Video for Windows" class="tile" style="background:url('https://store-images.s-microsoft.com/image/apps.49860.14618985536919905.3e754390-a812-43d7-87fc-335159cd867b.9f1b702c-2a8b-4fdc-b65b-8a6c4e49b55f');background-size:cover"><p class="tiletext">‎ </p></div>
 </div>
