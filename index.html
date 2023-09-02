@@ -72,6 +72,54 @@ function allowDrop(e)
 {
     e.preventDefault();
 }
+function saveTileOrder() {
+    let tiles = Array.from(document.getElementById("backdrop").children);
+    let tileOrder = tiles.map(tile => tile.id);
+    localStorage.setItem('tileOrder', JSON.stringify(tileOrder));
+}
+
+function loadTileOrder() {
+    let tileOrder = JSON.parse(localStorage.getItem('tileOrder'));
+    if (tileOrder) {
+        let tiles = Array.from(document.getElementById("backdrop").children);
+        let orderedTiles = [];
+        tileOrder.forEach(id => {
+            let tile = tiles.find(tile => tile.id === id);
+            if (tile) {
+                orderedTiles.push(tile);
+            }
+        });
+        document.getElementById("backdrop").innerHTML = '';
+        orderedTiles.forEach(tile => {
+            document.getElementById("backdrop").appendChild(tile);
+        });
+    }
+}
+
+window.onload = function() {
+    loadTileOrder();
+}
+
+function drop(e)
+{
+    e.preventDefault();
+    clone=e.target.cloneNode(true);
+    let data=e.dataTransfer.getData("text"); 
+    if(clone.id !== data) {
+        let nodelist=document.getElementById("backdrop").childNodes;
+        for(let i=0;i<nodelist.length;i++)
+        {
+            if(nodelist[i].id==data)
+            {
+                dragindex=i;
+            }
+        }
+        document.getElementById("backdrop").replaceChild(document.getElementById(data),e.target);
+        document.getElementById("backdrop").insertBefore(clone,document.getElementById("backdrop").childNodes[dragindex]);
+        saveTileOrder();
+    }
+}
+
 </script>
 
 <div id="backdrop">
