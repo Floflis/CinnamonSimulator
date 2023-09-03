@@ -103,25 +103,28 @@ window.onload = function() {
     loadTileOrder();
 }
 
+
 function drop(e)
 {
     e.preventDefault();
-    clone=e.target.cloneNode(true);
     let data=e.dataTransfer.getData("text"); 
-    if(clone.id !== data) {
+    let targetTile = e.target;
+    let draggedTile = document.getElementById(data);
+    if(targetTile.id !== data) {
         let nodelist=document.getElementById("backdrop").childNodes;
+        let targetIndex;
         for(let i=0;i<nodelist.length;i++)
         {
-            if(nodelist[i].id==data)
+            if(nodelist[i].id==targetTile.id)
             {
-                dragindex=i;
+                targetIndex=i;
             }
         }
-        document.getElementById("backdrop").replaceChild(document.getElementById(data),e.target);
-        document.getElementById("backdrop").insertBefore(clone,document.getElementById("backdrop").childNodes[dragindex]);
+        document.getElementById("backdrop").insertBefore(draggedTile, targetTile.nextSibling);
         saveTileOrder();
     }
 }
+
 
 window.onload = function() {
     loadTileOrder();
