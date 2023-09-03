@@ -122,6 +122,11 @@ function drop(e)
         saveTileOrder();
     }
 }
+    document.getElementById("backdrop").style.display = "none";
+    window.onload = function() {
+        loadTileOrder();
+        document.getElementById("backdrop").style.display = "block";
+    }
 
 </script>
 
