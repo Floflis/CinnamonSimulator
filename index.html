@@ -120,7 +120,22 @@ function drop(e)
                 targetIndex=i;
             }
         }
-        document.getElementById("backdrop").insertBefore(draggedTile, targetTile.nextSibling);
+        let draggedIndex;
+for(let i=0;i<nodelist.length;i++)
+{
+    if(nodelist[i].id==draggedTile.id)
+    {
+        draggedIndex=i;
+    }
+}
+        // If the dragged tile is moved to a previous position, insert the dragged tile before the target tile
+        if(draggedIndex > targetIndex) {
+            document.getElementById("backdrop").insertBefore(draggedTile, targetTile);
+        }
+        // If the dragged tile is moved to a later position, insert the dragged tile after the target tile
+        else if(draggedIndex < targetIndex) {
+            document.getElementById("backdrop").insertBefore(draggedTile, targetTile.nextSibling);
+        }
         saveTileOrder();
     }
 }
