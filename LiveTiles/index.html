@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<style>
+body {
+margin:0;
+background:#000
+}
+#backdrop {
+    background: url("https://unsplash.com/photos/5B-CcdKM9LA/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8OHx8bWFjYXJvb25zfGVufDB8fHx8MTY5MzY5MzIyNXww&force=true") center;
+    /*background-size:        contain;*/
+    background-size:cover;
+    width: fit-content;
+    height: 100%
+}
+
+.tile {
+  background:#1565c0;
+  margin: 0;
+  margin-right: 0px;
+  display: inline-block;
+  border: 2px solid;
+  -webkit-user-select: none;  /* Chrome, Safari, Opera */
+  -moz-user-select: none;     /* Firefox */
+  -ms-user-select: none;      /* IE/Edge */
+  user-select: none;          /* Standard syntax */
+}
+.tiletext {
+  color: #fff;
+  margin-top: 77px;
+  margin-left: 8px;
+  font-size: 12px;
+  text-shadow: #000 1px 1px 2px
+}
+.tile img {
+position: absolute;
+filter: drop-shadow(0px 0px 2px rgba(0,0,0,0.5));
+margin-left: 30px;
+margin-top: 30px;
+}
+/*.tile.blendbg {
+  background: white;
+  mix-blend-mode: multiply;
+}*/
+.blendbg .tile{background:transparent;box-shadow:inset 0 0 40px #000;/*From: https://css-tricks.com/snippets/css/css-box-shadow/*/}
+.tile.w100h100{width:100px;height:100px}
+.tile.w100h100 img{width:32px}
+.tile.custombg{box-shadow:none}
+</style>
+
+<script>
+let dragindex=0;
+let dropindex=0;
+let clone="";
+
+function drag(e)
+{
+e.dataTransfer.setData("text",e.target.id);
+}
+
+function drop(e)
+{
+e.preventDefault();
+clone=e.target.cloneNode(true);
+let data=e.dataTransfer.getData("text"); 
+if(clone.id !== data) {
+let nodelist=document.getElementById("backdrop").childNodes;
+for(let i=0;i<nodelist.length;i++)
+{
+if(nodelist[i].id==data)
+{
+dragindex=i;
+}
+
+}
+
+document.getElementById("backdrop").replaceChild(document.getElementById(data),e.target);
+
+document.getElementById("backdrop").insertBefore(clone,document.getElementById("backdrop").childNodes[dragindex]);
+  }
+
+}
+
+function allowDrop(e)
+{
+    e.preventDefault();
+}
+function saveTileOrder() {
+    let tiles = Array.from(document.getElementById("backdrop").children);
+    let tileOrder = tiles.map(tile => tile.id);
+    localStorage.setItem('tileOrder', JSON.stringify(tileOrder));
+}
+
+function loadTileOrder() {
+    let tileOrder = JSON.parse(localStorage.getItem('tileOrder'));
+    if (tileOrder) {
+        let tiles = Array.from(document.getElementById("backdrop").children);
+        let orderedTiles = [];
+        tileOrder.forEach(id => {
+            let tile = tiles.find(tile => tile.id === id);
+            if (tile) {
+                orderedTiles.push(tile);
+            }
+        });
+        document.getElementById("backdrop").innerHTML = '';
+        orderedTiles.forEach(tile => {
+            document.getElementById("backdrop").appendChild(tile);
+        });
+    }
+}
+
+window.onload = function() {
+    loadTileOrder();
+}
+
+
+function drop(e)
+{
+    e.preventDefault();
+    let data=e.dataTransfer.getData("text"); 
+    let targetTile = e.target;
+    let draggedTile = document.getElementById(data);
+    if(targetTile.id !== data) {
+        let nodelist=document.getElementById("backdrop").childNodes;
+        let targetIndex;
+        for(let i=0;i<nodelist.length;i++)
+        {
+            if(nodelist[i].id==targetTile.id)
+            {
+                targetIndex=i;
+            }
+        }
+        let draggedIndex;
+for(let i=0;i<nodelist.length;i++)
+{
+    if(nodelist[i].id==draggedTile.id)
+    {
+        draggedIndex=i;
+    }
+}
+        // If the dragged tile is moved to a previous position, insert the dragged tile before the target tile
+        if(draggedIndex > targetIndex) {
+            document.getElementById("backdrop").insertBefore(draggedTile, targetTile);
+        }
+        // If the dragged tile is moved to a later position, insert the dragged tile after the target tile
+        else if(draggedIndex < targetIndex) {
+            document.getElementById("backdrop").insertBefore(draggedTile, targetTile.nextSibling);
+        }
+        saveTileOrder();
+    }
+}
+
+
+function toggleBlendBgMode() {
+    var backdrop = document.getElementById('backdrop');
+    backdrop.classList.toggle('blendbg');
+
+    // Save state to localStorage
+    if (backdrop.classList.contains('blendbg')) {
+        localStorage.setItem('blendbg', 'true');
+    } else {
+        localStorage.setItem('blendbg', 'false');
+    }
+}
+
+
+window.onload = function() {
+    loadTileOrder();
+    var backdrop = document.getElementById('backdrop');
+    var blendbg = localStorage.getItem('blendbg');
+
+    if (blendbg === 'true') {
+        backdrop.classList.add('blendbg');
+    } else {
+        backdrop.classList.remove('blendbg');
+    }
+    document.getElementById("backdrop").style.display = "block";
+}
+</script>
+
+<div id="backdrop" style="display:none">
+	<div class="tile w100h100" id="box1" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><img src="https://raw.githubusercontent.com/Floflis/icons/main/scalable/apps/kolourpaint.svg" draggable="false"><p class="tiletext">Paint</p></div><div class="tile w100h100" id="box2" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><img src="https://raw.githubusercontent.com/ubuntu/yaru/master/icons/Yaru/32x32/apps/gallery-app.png" draggable="false"><p class="tiletext">Photos</p></div><div class="tile w100h100" id="box3" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><img src="https://www.cursor.so/brand/icon.svg" draggable="false"><p class="tiletext">Cursor</p></div><div class="tile w100h100" id="box4" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><img src="https://raw.githubusercontent.com/ubuntu/yaru/master/icons/Yaru/32x32/apps/address-book-app.png" draggable="false"><p class="tiletext">People</p></div><div title="Prime Video for Windows" class="tile w100h100 custombg" id="box5" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" style="background:url('https://store-images.s-microsoft.com/image/apps.49860.14618985536919905.3e754390-a812-43d7-87fc-335159cd867b.9f1b702c-2a8b-4fdc-b65b-8a6c4e49b55f');background-size:cover"><p class="tiletext">‎ </p></div><div class="tile w100h100 custombg" style="background:#2e7658" id="box6" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><img src="https://raw.githubusercontent.com/Floflis/TouchPass/main/icon.svg" draggable="false"><p class="tiletext">TouchPass</p></div><div class="tile w100h100" id="box7" class="common" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><img src="https://raw.githubusercontent.com/Floflis/nfc-setup/main/nfctools.svg" draggable="false"><p class="tiletext">NFC Tools</p></div>
+</div>

@@ -1,0 +1,13 @@
+I need a brand new feature: tilefolders.
+
+Tilefolders will be special tiles hosting other tiles inside!
+
+The tiles inside a tilefolder will be displayed in a mosaic, each having a size of 33px (both width and height).
+
+A tilefolder can host an unlimited amount of tiles.
+But it will display as mosaic only up to 9 tiles.
+
+But how a tilefolder will be created? I'll explain!
+
+Currently, when you drag a tile into another, they'll be reorganized only when you drop.
+This will give the opportunity to trigger the formation of a tilefolder!
